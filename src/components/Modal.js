@@ -4,8 +4,8 @@ import { supabase } from '../lib/supabase.js';
 export class Modal {
   constructor() {
     this.createModalElement();
+    this.createModalElement();
     this.bindEvents();
-    this.subscription = null;
   }
 
   createModalElement() {
@@ -52,6 +52,7 @@ export class Modal {
   async open(post) {
     this.isOpen = true;
     this.currentPostId = post.id;
+    this.currentClapCount = post.claps || 0;
     
     // Populate Content
     this.contentArea.innerHTML = `
@@ -70,9 +71,6 @@ export class Modal {
     // Initial Clap Count (Use passed data first, then fetch latest)
     this.renderClapButton(post.claps || 0);
     this.fetchLatestClaps();
-
-    // Subscribe to Realtime Changes
-    this.subscribeToClaps();
 
     // Show Modal
     this.overlay.classList.remove('opacity-0', 'pointer-events-none');
@@ -110,23 +108,10 @@ export class Modal {
     }
   }
 
-  subscribeToClaps() {
-    if (this.subscription) supabase.removeChannel(this.subscription);
 
-    this.subscription = supabase
-      .channel(`public:posts:id=eq.${this.currentPostId}`)
-      .on('postgres_changes', { 
-        event: 'UPDATE', 
-        schema: 'public', 
-        table: 'posts', 
-        filter: `id=eq.${this.currentPostId}` 
-      }, (payload) => {
-        this.updateClapCountUI(payload.new.claps);
-      })
-      .subscribe();
-  }
 
   updateClapCountUI(count) {
+    this.currentClapCount = count;
     const countEl = this.clapSection.querySelector('#clap-count');
     if (countEl) {
       countEl.textContent = `${count} Claps`;
@@ -140,6 +125,9 @@ export class Modal {
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
     triggerClapBurst(centerX, centerY);
+
+    // Optimistic Update: Update UI immediately
+    this.updateClapCountUI(this.currentClapCount + 1);
 
     // Fetch current count to increment safely
     // Note: In a high-concurrency app, we should use an RPC function (increment_claps).
@@ -164,12 +152,6 @@ export class Modal {
   close() {
     this.isOpen = false;
     
-    // Unsubscribe
-    if (this.subscription) {
-      supabase.removeChannel(this.subscription);
-      this.subscription = null;
-    }
-
     // Hide Modal
     this.overlay.classList.add('opacity-0', 'pointer-events-none');
     this.container.classList.remove('scale-100');
