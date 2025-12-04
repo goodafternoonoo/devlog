@@ -36,55 +36,61 @@
         </nav>
       </header>
 
-      <main>
-        <!-- Hero Section -->
-        <section id="hero" class="min-h-[80vh] flex flex-col justify-center items-start">
-          <div class="space-y-4">
-            <h2 class="text-cyan-400 font-mono text-lg mb-2">Hello, World! I am</h2>
-            <h1 class="text-6xl md:text-8xl font-extrabold tracking-tight leading-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-200 to-gray-500">
-              Creative<br />Developer.
-            </h1>
-            <div class="h-8 mt-4">
-              <span id="typewriter" class="font-mono text-xl text-gray-400 border-r-2 border-cyan-400 pr-1 animate-pulse"></span>
-            </div>
-          </div>
-          
-          <div class="mt-12">
-            <a href="#blog" class="group relative inline-flex px-8 py-3 overflow-hidden rounded-full bg-white/5 backdrop-blur-sm border border-white/10 transition-all hover:bg-white/10 hover:border-cyan-400/50">
-              <span class="relative font-semibold text-white group-hover:text-cyan-300 transition-colors">Explore Posts</span>
-              <div class="absolute inset-0 -translate-x-full group-hover:translate-x-0 bg-gradient-to-r from-transparent via-white/5 to-transparent transition-transform duration-500"></div>
-            </a>
-          </div>
-        </section>
-
-        <!-- Blog Grid -->
-        <section id="blog" class="py-20">
-          <div class="flex flex-col md:flex-row justify-between items-end gap-6 mb-12">
-            <div>
-              <h2 class="text-3xl font-bold mb-2">Latest Thoughts</h2>
-              <p class="text-gray-400">Insights on code, design, and future.</p>
-            </div>
-            
-            <div class="flex items-center gap-4 w-full md:w-auto">
-              <div class="relative group flex-1 md:flex-none">
-                <input 
-                  type="text" 
-                  id="search-input" 
-                  placeholder="Search..." 
-                  class="bg-white/5 border border-white/10 rounded-full px-4 py-2 pl-10 text-sm text-white focus:outline-none focus:border-cyan-400/50 focus:bg-white/10 transition-all w-full md:w-64 placeholder-gray-500"
-                >
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-cyan-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
+      <div id="app-home">
+        <main>
+          <!-- Hero Section -->
+          <section id="hero" class="min-h-[80vh] flex flex-col justify-center items-start">
+            <div class="space-y-4">
+              <h2 class="text-cyan-400 font-mono text-lg mb-2">Hello, World! I am</h2>
+              <h1 class="text-6xl md:text-8xl font-extrabold tracking-tight leading-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-200 to-gray-500">
+                Creative<br />Developer.
+              </h1>
+              <div class="h-8 mt-4">
+                <span id="typewriter" class="font-mono text-xl text-gray-400 border-r-2 border-cyan-400 pr-1 animate-pulse"></span>
               </div>
             </div>
-          </div>
+            
+            <div class="mt-12">
+              <a href="#blog" class="group relative inline-flex px-8 py-3 overflow-hidden rounded-full bg-white/5 backdrop-blur-sm border border-white/10 transition-all hover:bg-white/10 hover:border-cyan-400/50">
+                <span class="relative font-semibold text-white group-hover:text-cyan-300 transition-colors">Explore Posts</span>
+                <div class="absolute inset-0 -translate-x-full group-hover:translate-x-0 bg-gradient-to-r from-transparent via-white/5 to-transparent transition-transform duration-500"></div>
+              </a>
+            </div>
+          </section>
 
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 min-h-[60vh]" id="posts-grid">
-            <!-- Posts will be injected here via JS -->
-          </div>
-        </section>
-      </main>
+          <!-- Blog Grid -->
+          <section id="blog" class="py-20">
+            <div class="flex flex-col md:flex-row justify-between items-end gap-6 mb-12">
+              <div>
+                <h2 class="text-3xl font-bold mb-2">Latest Thoughts</h2>
+                <p class="text-gray-400">Insights on code, design, and future.</p>
+              </div>
+              
+              <div class="flex items-center gap-4 w-full md:w-auto">
+                <div class="relative group flex-1 md:flex-none">
+                  <input 
+                    type="text" 
+                    id="search-input" 
+                    placeholder="Search..." 
+                    class="bg-white/5 border border-white/10 rounded-full px-4 py-2 pl-10 text-sm text-white focus:outline-none focus:border-cyan-400/50 focus:bg-white/10 transition-all w-full md:w-64 placeholder-gray-500"
+                  >
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-cyan-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 min-h-[60vh]" id="posts-grid">
+              <!-- Posts will be injected here via JS -->
+            </div>
+          </section>
+        </main>
+      </div>
+
+      <div id="app-admin" class="hidden">
+        <!-- Admin/Login View -->
+      </div>
 
       <footer class="py-12 border-t border-white/5 text-center text-gray-500 text-sm font-mono">
         <p>© 2025 Dev.Log. Built with Vite & Tailwind CSS.</p>

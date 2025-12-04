@@ -5,6 +5,38 @@ import { initCursor } from './effects/cursor.js';
 import { initCanvas } from './effects/canvas.js';
 import { initTypewriter } from './effects/typewriter.js';
 import { renderPostList, setSearchQuery } from './components/PostList.js';
+import { renderLogin } from './components/Login.js';
+import { AdminDashboard } from './components/AdminDashboard.js';
+
+// Routing Logic
+const routes = {
+  home: document.getElementById('app-home'),
+  admin: document.getElementById('app-admin'),
+};
+
+function showView(viewName) {
+  Object.values(routes).forEach(el => el.classList.add('hidden'));
+  if (routes[viewName]) routes[viewName].classList.remove('hidden');
+}
+
+async function handleRouting() {
+  const hash = window.location.hash;
+  
+  if (hash === '#admin') {
+    const { data: { session } } = await supabase.auth.getSession();
+    
+    if (session) {
+      showView('admin');
+      const dashboard = new AdminDashboard('app-admin');
+      dashboard.render();
+    } else {
+      showView('admin');
+      renderLogin('app-admin');
+    }
+  } else {
+    showView('home');
+  }
+}
 
 document.addEventListener('DOMContentLoaded', async () => {
   // Initialize Effects
@@ -54,4 +86,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     console.error('Error fetching posts:', err);
     grid.innerHTML = `<div class="col-span-full text-center text-red-400 font-mono">Failed to load posts.<br/><span class="text-xs text-gray-600">${err.message}</span></div>`;
   }
+  // Auth State Listener
+  supabase.auth.onAuthStateChange((event, session) => {
+    if (event === 'SIGNED_IN') {
+      if (window.location.hash === '#admin') handleRouting();
+    } else if (event === 'SIGNED_OUT') {
+      window.location.hash = '';
+      handleRouting();
+    }
+  });
+
+  // Router Listener
+  window.addEventListener('hashchange', handleRouting);
+  
+  // Initial Route
+  handleRouting();
 });
